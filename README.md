@@ -1,4 +1,4 @@
-# RIFD-Gramofon  
+# RFID-Gramofon  
 
 **Projekt prezent**
 
