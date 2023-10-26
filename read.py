@@ -10,14 +10,16 @@ is_reading = True
 id = None
 
 GPIO.setwarnings(False)
-async def read(reader):
-        global id
-        while True:
-            id = reader.read_id_no_block()
-            await asyncio.sleep(0.5) # we only read every 0.5 seconds to give other coroutines time to do theri thing
 
-async def main():
-    await asyncio.create_task(read(reader))
+#def read(reader):
+#        global id
+#            await asyncio.sleep(0.5) # we only read every 0.5 seconds to give other coroutines time to do theri thing
+
+#async def main():
+    #await asyncio.create_task(read(reader))
     
 
-asyncio.run(main())
+while True:
+    id = reader.read_id_no_block()
+    if get_current_album() != albumy[id] and id != None:
+        print(get_current_album())

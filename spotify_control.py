@@ -11,12 +11,12 @@ token = SpotifyOAuth(client_id=CLIENT_ID, client_secret=CLIENT_SECRET,
 sp = spotipy.Spotify(auth_manager=token)
 
 
-def get_deviceId():
+def get_deviceId() -> str :
     devices = sp.devices()['devices']
     if len(devices) > 0:
         return devices[0]['id']
 
-def get_current_album():
+def get_current_album() -> str:
     data = sp.currently_playing()
     if data != None:
         album = data['item']['album']
