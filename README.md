@@ -8,11 +8,11 @@ Gramofon do spotify na mini TAGI RFID zamiast winyli
 >
 > - Czytanie TAGów ✅
 > - Zapisywanie info do TAGów ✅
-> - Łączność z spotify
+> - Łączność z spotify ✅
 > - sterowanie silnika do obracania krążka
 > - model całego gramofonu
 > - Pokrętło do kontroli głośności
-> - Łatwe dodawanie krążków do albumów
+> - Łatwe dodawanie krążków do albumów ✅
 >
 >> Na przycisk dodwanie i zczytywanie aktualnego albumu z spotify
 >
