@@ -12,26 +12,27 @@ sp = spotipy.Spotify(auth_manager=token)
 
 
 def get_deviceId():
-    return sp.devices()['devices'][0]['id']
+    devices = sp.devices()['devices']
+    if len(devices) > 0:
+        return devices[0]['id']
 
 def get_current_album():
-    data = sp.currently_playing()['item']
-    album = data['album']
-    track = data['name']
-    return album['name'], album['uri'], track
+    data = sp.currently_playing()
+    if data != None:
+        album = data['item']['album']
+        return album['uri']
 
 def set_volume(val):
     sp.volume(val)
 
 def control(val):
-    match val:
-        case 'play':
+        if val == 'play':
             sp.start_playback(get_deviceId())
-        case 'pause':
+        elif val == 'pause':
             sp.pause_playback(get_deviceId())
-        case 'next':
+        elif val =='next':
             sp.next_track(get_deviceId())
-        case 'previous':
+        elif val == 'previous':
             sp.previous_track(get_deviceId())
 
 def play_album(uri):
@@ -42,4 +43,3 @@ albumy = {}
 
 print(f'''{get_deviceId()}
 {get_current_album()}''')
-play_album('spotify:album:4SZko61aMnmgvNhfhgTuD3')
