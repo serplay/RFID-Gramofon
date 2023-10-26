@@ -26,20 +26,24 @@ def set_volume(val):
 def control(val):
     match val:
         case 'play':
-            sp.start_playback(get_deviceId())
+            print(val)
+            #sp.start_playback(get_deviceId())
         case 'pause':
-            sp.pause_playback(get_deviceId())
+            print(val)
+            #sp.pause_playback(get_deviceId())
         case 'next':
-            sp.next_track(get_deviceId())
+            print(val)
+            #sp.next_track(get_deviceId())
         case 'previous':
-            sp.previous_track(get_deviceId())
+            print(val)
+            #sp.previous_track(get_deviceId())
 
 def play_album(uri):
-    sp.start_playback(device_id=DEVICE_ID,context_uri=uri)
+    print(f'play{uri}')
+    #sp.start_playback(device_id=DEVICE_ID,context_uri=uri)
 
 DEVICE_ID = get_deviceId()
 albumy = {}
 
 print(f'''{get_deviceId()}
 {get_current_album()}''')
-play_album('spotify:album:4SZko61aMnmgvNhfhgTuD3')
