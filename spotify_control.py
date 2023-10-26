@@ -7,7 +7,7 @@ CLIENT_SECRET = '022524ff98bc40ff907eba3798736d0e'
 SCOPES = 'user-read-playback-state','user-modify-playback-state'
 
 token = SpotifyOAuth(client_id=CLIENT_ID, client_secret=CLIENT_SECRET,
-                     redirect_uri='http://localhost:8080', scope=SCOPES)
+                     redirect_uri='http://localhost:8080', scope=SCOPES, open_browser=False)
 sp = spotipy.Spotify(auth_manager=token)
 
 
@@ -37,9 +37,9 @@ def control(val):
 
 def play_album(uri):
     sp.start_playback(device_id=DEVICE_ID,context_uri=uri)
-
-DEVICE_ID = get_deviceId()
+sp.devices()
+DEVICE_ID = None #get_deviceId()
 albumy = {}
 
-print(f'''{get_deviceId()}
-{get_current_album()}''')
+#print(f'''{get_deviceId()}
+#{get_current_album()}''')
