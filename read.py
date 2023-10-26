@@ -1,19 +1,23 @@
 import RPi.GPIO as GPIO
 from mfrc522 import SimpleMFRC522
-import spotify_control
+from spotify_control import *
+import asyncio
 import sys
 
 reader = SimpleMFRC522()
 is_reading = True
 
+id = None
+
 GPIO.setwarnings(False)
+async def read(reader):
+        global id
+        while True:
+            id = reader.read_id_no_block()
+            await asyncio.sleep(0.5) # we only read every 0.5 seconds to give other coroutines time to do theri thing
 
-while is_reading:
-    try:
-        id, text = reader.read()
-        print(f'ID :: {id}')
-        print(f'TEXT :: {text}')
+async def main():
+    await asyncio.create_task(read(reader))
+    
 
-    except:
-        GPIO.cleanup()
-        sys.exit()
+asyncio.run(main())
