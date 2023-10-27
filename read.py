@@ -21,9 +21,10 @@ GPIO.setwarnings(False)
 
 while True:
     id = reader.read_id_no_block()
+    print(id)
     if id != None:
         wejscie = input()
-    if (id not in albumy[id]) and id != None and wejscie == '1':
+    if (id not in albumy) and id != None and wejscie == '1':
         albumy[id] = get_current_album()
     elif id in albumy and id != None and wejscie == '0':
         print(get_current_album, albumy[id])
