@@ -42,7 +42,7 @@ def control(val):
 
 def play_album(uri):
     album = sp.album(uri)
-    print(f'playing {album['name']} on device {DEVICE_ID}')
+    print(f'playing {album["name"]} on device {DEVICE_ID}')
     #sp.start_playback(device_id=DEVICE_ID,context_uri=uri)
 
 DEVICE_ID = get_deviceId()
