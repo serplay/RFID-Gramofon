@@ -18,10 +18,13 @@ while True:
     
     if id != 'None':
         wejscie = input('awaiting input: ')
+
     if id != 'None' and wejscie == '1':
         albumy[id] = get_current_album()
     elif (id in albumy) and wejscie == '0':
         print(get_current_album(), albumy[id])
+    elif (id in albumy) and wejscie == '2':
+        play_album(albumy[id])
     
     if albumy != albumy_start:
         with open('save.json','w') as f:

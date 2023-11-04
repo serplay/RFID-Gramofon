@@ -11,6 +11,7 @@ token = SpotifyOAuth(client_id=CLIENT_ID, client_secret=CLIENT_SECRET,
 sp = spotipy.Spotify(auth_manager=token)
 
 
+
 def get_deviceId() -> str :
     devices = sp.devices()['devices']
     if len(devices) > 0:
@@ -22,24 +23,27 @@ def get_current_album() -> str:
         album = data['item']['album']
         return album['uri']
 
-def set_volume(val):
-    sp.volume(val)
+#def set_volume(val):
+    #sp.volume(val)
 
 def control(val):
         if val == 'play':
-            sp.start_playback(get_deviceId())
+            print(f'playing audio')
+            #sp.start_playback(get_deviceId())
         elif val == 'pause':
-            sp.pause_playback(get_deviceId())
+            print(f'audio paused')
+            #sp.pause_playback(get_deviceId())
         elif val =='next':
-            sp.next_track(get_deviceId())
+            print(f'playing next track')
+            #sp.next_track(get_deviceId())
         elif val == 'previous':
-            sp.previous_track(get_deviceId())
+            print(f'playing previous track')
+            #sp.previous_track(get_deviceId())
 
 def play_album(uri):
-    sp.start_playback(device_id=DEVICE_ID,context_uri=uri)
-sp.devices()
-DEVICE_ID = None #get_deviceId()
-albumy = {}
+    album = sp.album(uri)
+    print(f'playing {album['name']} on device {DEVICE_ID}')
+    #sp.start_playback(device_id=DEVICE_ID,context_uri=uri)
 
-#print(f'''{get_deviceId()}
-#{get_current_album()}''')
+DEVICE_ID = get_deviceId()
+
