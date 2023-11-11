@@ -1,6 +1,6 @@
 import RPi.GPIO as GPIO
 from mfrc522 import SimpleMFRC522
-from spotify_control import *
+from spotify_control import Spotify 
 import json
 GPIO.setwarnings(False)
 
@@ -20,11 +20,11 @@ while True:
         wejscie = input('awaiting input: ')
 
     if id != 'None' and wejscie == '1':
-        albumy[id] = get_current_album()
+        albumy[id] = Spotify.Device.currently_playing_album
     elif (id in albumy) and wejscie == '0':
-        print(get_current_album(), albumy[id])
+        print(Spotify.Device.currently_playing_album, albumy[id])
     elif (id in albumy) and wejscie == '2':
-        play_album(albumy[id])
+        Spotify.play_album(albumy[id])
     
     if albumy != albumy_start:
         with open('save.json','w') as f:
