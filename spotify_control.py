@@ -21,8 +21,7 @@ class Spotify:
             repeat=data['repeat_state']
             shuffle=data['shuffle_state']
             is_playing=data['is_playing']
-            if is_playing:
-                currently_playing_album = data['item']['album']['uri']
+            currently_playing_album = data['item']['album']['uri']
 
     def set_volume(self, val):
         self.sp.volume(val)
@@ -45,6 +44,3 @@ class Spotify:
         album = self.Device.currently_playing_album
         print(f'playing {album["name"]} on device {self.Device.name}')
         #sp.start_playback(device_id=DEVICE_ID,context_uri=uri)
-
-
-
