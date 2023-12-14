@@ -10,31 +10,22 @@ class Spotify:
     token = SpotifyOAuth(client_id=CLIENT_ID, client_secret=CLIENT_SECRET,
                         redirect_uri='http://localhost:8080', scope=SCOPES, open_browser=False)
     sp = spotipy.Spotify(auth_manager=token)
-    global data
-    data = sp.current_playback()
 
-    if data != None:
-        id = data['device']['id']
-        name = data['device']['name']
-        support_vol=data['device']['supports_volume']
-        volume=data['device']['volume_percent']
-        repeat=data['repeat_state']
-        shuffle=data['shuffle_state']
-        is_playing=data['is_playing']
-        currently_playing_album = data['item']['album']
 
-    def update(self):
-        self.data = self.sp.current_playback()
+    def get_data(self):
+        data = self.sp.current_playback()
         if data != None:
-            self.id = data['device']['id']
-            self.name = data['device']['name']
-            self.support_vol=data['device']['supports_volume']
-            self.volume=data['device']['volume_percent']
-            self.repeat=data['repeat_state']
-            self.shuffle=data['shuffle_state']
-            self.is_playing=data['is_playing']
-            self.currently_playing_album = data['item']['album']
-        
+            dev_id = data['device']['id']
+            name = data['device']['name']
+            support_vol=data['device']['supports_volume']
+            volume=data['device']['volume_percent']
+            repeat=data['repeat_state']
+            shuffle=data['shuffle_state']
+            is_playing=data['is_playing']
+            currently_playing_album = data['item']['album']['uri']
+            return dev_id,name,support_vol,volume,repeat,shuffle,is_playing,currently_playing_album
+        return None
+    
     def set_volume(self, val):
         self.sp.volume(val)
 
@@ -53,7 +44,5 @@ class Spotify:
                 self.sp.previous_track(self.id)
 
     def play_album(self, uri):
-        album = self.currently_playing_album
-        print(f'playing {album["name"]} on device {self.name}')
         self.sp.start_playback(device_id=self.id,context_uri=uri)
 

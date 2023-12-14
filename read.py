@@ -18,14 +18,14 @@ with open('save.json') as f:
 albumy_start = dict.copy(albumy)
 
 while True:
-    spoti.update()
+    dev_id,name,support_vol,volume,repeat,shuffle,is_playing,currently_playing_album=spoti.update()
     id = str(reader.read_id_no_block())
     wejscie = 'asd'
 
     if id != 'None' and wejscie == '1':
-        albumy[id] = spoti.currently_playing_album
+        albumy[id] = currently_playing_album
     elif (id in albumy) and wejscie == '0':
-        print(spoti.currently_playing_album, albumy[id])
+        print(currently_playing_album, albumy[id])
     elif (id in albumy) and wejscie == '2':
         spoti.play_album(albumy[id])
         
@@ -33,7 +33,7 @@ while True:
         spoti.control(val='previous')
         sleep(.2)
     if play.is_active:
-        if spoti.is_playing:
+        if is_playing:
             spoti.control(val='pause')
             sleep(.2)
         else:
