@@ -10,6 +10,7 @@ GPIO.setwarnings(False)
 back = gpiozero.Button(14)
 play = gpiozero.Button(15)
 skip = gpiozero.Button(18)
+adder = gpiozero.Button(16)
 fase_1 = gpiozero.OutputDevice(6)
 fase_2 = gpiozero.OutputDevice(13)
 fase_3 = gpiozero.OutputDevice(19)
@@ -59,6 +60,10 @@ async def handle_buttons():
 #                        fase_3.off()
 #                        fase_4.on()
 #                    await asyncio.sleep(0.01)  # Adjust the sleep duration as needed
+#            else:
+#                await asyncio.sleep(1)
+#        else:
+#            await asyncio.sleep(0.01)
 
 async def read_nfc():
     reader = SimpleMFRC522()
@@ -68,14 +73,11 @@ async def read_nfc():
             id = str(reader.read_id_no_block())
             with open('save.json') as f:
                 albumy = json.load(f)
-            wejscie = 'asd'
-            if id != 'None' and wejscie == '1':
+            if id != 'None' and adder.is_active:
                 albumy[id] = currently_playing_album
                 with open('save.json','w') as f:
                     json.dump(albumy,f)
-            elif (id in albumy) and wejscie == '0':
-                print(currently_playing_album, albumy[id])
-            elif (id in albumy) and wejscie == '2':
+            elif id in albumy:
                 spoti.play_album(albumy[id])
         await asyncio.sleep(1)  # Adjust the sleep duration as needed
 
