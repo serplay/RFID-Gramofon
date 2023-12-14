@@ -30,17 +30,17 @@ while True:
         spoti.play_album(albumy[id])
         
     if back.is_active:
-        spoti.control(val='previous')
+        spoti.control('previous',dev_id)
         sleep(.2)
     if play.is_active:
         if is_playing:
-            spoti.control(val='pause')
+            spoti.control('pause',dev_id)
             sleep(.2)
         else:
-            spoti.control(val='play')
+            spoti.control('play',dev_id)
             sleep(.2)
     if skip.is_active:
-        spoti.control(val='next')
+        spoti.control('next',dev_id)
         sleep(.2)
         
     if albumy != albumy_start:

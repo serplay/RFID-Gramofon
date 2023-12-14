@@ -29,20 +29,20 @@ class Spotify:
     def set_volume(self, val):
         self.sp.volume(val)
 
-    def control(self, val):
+    def control(self, val, dev_id):
             if val == 'play':
                 print(f'playing audio')
-                self.sp.start_playback(self.id)
+                self.sp.start_playback(dev_id)
             elif val == 'pause':
                 print(f'audio paused')
-                self.sp.pause_playback(self.id)
+                self.sp.pause_playback(dev_id)
             elif val =='next':
                 print(f'playing next track')
-                self.sp.next_track(self.id)
+                self.sp.next_track(dev_id)
             elif val == 'previous':
                 print(f'playing previous track')
-                self.sp.previous_track(self.id)
+                self.sp.previous_track(dev_id)
 
-    def play_album(self, uri):
-        self.sp.start_playback(device_id=self.id,context_uri=uri)
+    def play_album(self, uri,dev_id):
+        self.sp.start_playback(device_id=dev_id,context_uri=uri)
 
