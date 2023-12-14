@@ -59,7 +59,7 @@ async def handle_buttons(queue):
         data = spoti.get_data()
         if data is not None:
             dev_id, name, support_vol, volume, repeat, shuffle, is_playing, currently_playing_album = data
-            queue.put(dev_id, name, support_vol, volume, repeat, shuffle, is_playing, currently_playing_album)  # Put the data into the queue
+            queue.put((dev_id, name, support_vol, volume, repeat, shuffle, is_playing, currently_playing_album))  # Put the data into the queue
             back.when_activated = spoti.control('previous', dev_id)
             skip.when_activated = spoti.control('next', dev_id)
             if is_playing:
