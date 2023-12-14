@@ -33,17 +33,13 @@ while True:
         
     if back.is_active:
         spoti.control('previous',dev_id)
-        sleep(.1)
     if play.is_active:
         if is_playing:
             spoti.control('pause',dev_id)
-            sleep(.1)
         else:
             spoti.control('play',dev_id)
-            sleep(.1)
     if skip.is_active:
         spoti.control('next',dev_id)
-        sleep(.1)
         
     if albumy != albumy_start:
         with open('save.json','w') as f:
