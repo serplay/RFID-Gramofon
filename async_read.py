@@ -22,7 +22,6 @@ async def handle_buttons(queue):
     while True:
         data = spoti.get_data()
         queue.put(data)
-        queue.ge
         if data is not None:
             dev_id, name, support_vol, volume, repeat, shuffle, is_playing, currently_playing_album = data
             if back.is_active:
@@ -38,7 +37,7 @@ async def handle_buttons(queue):
         
 async def steps(queue):
     while True:
-        data = queue.get_data()
+        data = await queue.get()
         if data is not None:
             dev_id, name, support_vol, volume, repeat, shuffle, is_playing, currently_playing_album = data
         if is_playing:
@@ -68,7 +67,7 @@ async def steps(queue):
 async def read_nfc(queue):
     reader = SimpleMFRC522()
     while True:
-        data = queue.get_data()
+        data = await queue.get()
         if data is not None:
             dev_id, name, support_vol, volume, repeat, shuffle, is_playing, currently_playing_album = data
         id = str(reader.read_id_no_block())
