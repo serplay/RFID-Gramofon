@@ -60,12 +60,15 @@ async def handle_buttons(queue):
         if data is not None:
             dev_id, name, support_vol, volume, repeat, shuffle, is_playing, currently_playing_album = data
             queue.put((dev_id, name, support_vol, volume, repeat, shuffle, is_playing, currently_playing_album))  # Put the data into the queue
-            back.when_activated = spoti.control('previous', dev_id)
-            skip.when_activated = spoti.control('next', dev_id)
-            if is_playing:
-                play.when_activated = spoti.control('pause', dev_id)
-            else:
-                play.when_activated = spoti.control('play', dev_id)
+            if back.is_active():
+                spoti.control('previous', dev_id)
+            if skip.is_active:
+                spoti.control('next', dev_id)
+            if play.is_active:
+                if is_playing:
+                    spoti.control('pause', dev_id)
+                else:
+                    spoti.control('play', dev_id)
         await asyncio.sleep(0.1)  # Adjust the sleep duration as needed
 
 async def main():
