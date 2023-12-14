@@ -45,6 +45,3 @@ class Spotify:
         print(f'playing {album["name"]} on device {self.name}')
         self.sp.start_playback(device_id=self.id,context_uri=uri)
 
-spoti = Spotify()
-spoti.set_volume(85)
-spoti.play_album('spotify:album:4SZko61aMnmgvNhfhgTuD3')

@@ -27,17 +27,17 @@ while True:
         print(Spotify.currently_playing_album, albumy[id])
     elif (id in albumy) and wejscie == '2':
         Spotify.play_album(albumy[id])
-    if back.is_active():
+    if back.is_active:
         Spotify.control('previous')
         sleep(.2)
-    if play.is_active():
+    if play.is_active:
         if Spotify.is_playing:
             Spotify.control('play')
             sleep(.2)
         else:
             Spotify.control('pause')
             sleep(.2)
-    if skip.is_active():
+    if skip.is_active:
         Spotify.control('next')
         sleep(.2)
         
