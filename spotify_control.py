@@ -25,6 +25,16 @@ class Spotify:
 
     def update(self):
         self.data = self.sp.current_playback()
+        if data != None:
+            self.id = data['device']['id']
+            self.name = data['device']['name']
+            self.support_vol=data['device']['supports_volume']
+            self.volume=data['device']['volume_percent']
+            self.repeat=data['repeat_state']
+            self.shuffle=data['shuffle_state']
+            self.is_playing=data['is_playing']
+            self.currently_playing_album = data['item']['album']
+        
     def set_volume(self, val):
         self.sp.volume(val)
 
