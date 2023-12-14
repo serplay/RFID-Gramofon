@@ -23,6 +23,8 @@ class Spotify:
         is_playing=data['is_playing']
         currently_playing_album = data['item']['album']
 
+    def update(self):
+        self.data = self.sp.current_playback()
     def set_volume(self, val):
         self.sp.volume(val)
 
