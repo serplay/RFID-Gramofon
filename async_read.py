@@ -4,7 +4,6 @@ from spotify_control import Spotify
 import gpiozero
 import json
 import asyncio
-from queue import Queue
 
 GPIO.setwarnings(False)
 
@@ -16,12 +15,10 @@ fase_2 = gpiozero.OutputDevice(13)
 fase_3 = gpiozero.OutputDevice(19)
 fase_4 = gpiozero.OutputDevice(26)
 
-
-
-async def handle_buttons(queue):
+async def handle_buttons():
     while True:
+        global data
         data = spoti.get_data()
-        queue.put(data)
         if data is not None:
             dev_id, name, support_vol, volume, repeat, shuffle, is_playing, currently_playing_album = data
             if back.is_active:
@@ -34,59 +31,61 @@ async def handle_buttons(queue):
                 else:
                     spoti.control('play', dev_id)
         await asyncio.sleep(0.1)  # Adjust the sleep duration as needed
-        
-async def steps(queue):
+
+async def steps():
     while True:
-        data = await queue.get()
         if data is not None:
             dev_id, name, support_vol, volume, repeat, shuffle, is_playing, currently_playing_album = data
-        if is_playing:
-            for x in range(4):
-                if x == 0:
-                    fase_1.on()
-                    fase_2.off()
-                    fase_3.on()
-                    fase_4.off()
-                if x == 1:
-                    fase_1.off()
-                    fase_2.on()
-                    fase_3.on()
-                    fase_4.off()
-                if x == 2:
-                    fase_1.off()
-                    fase_2.off()
-                    fase_3.on()
-                    fase_4.off()
-                if x == 3:
-                    fase_1.off()
-                    fase_2.off()
-                    fase_3.off()
-                    fase_4.on()
-                await asyncio.sleep(0.01)  # Adjust the sleep duration as needed
+            if is_playing:
+                for x in range(4):
+                    if x == 0:
+                        fase_1.on()
+                        fase_2.off()
+                        fase_3.on()
+                        fase_4.off()
+                    if x == 1:
+                        fase_1.off()
+                        fase_2.on()
+                        fase_3.on()
+                        fase_4.off()
+                    if x == 2:
+                        fase_1.off()
+                        fase_2.off()
+                        fase_3.on()
+                        fase_4.off()
+                    if x == 3:
+                        fase_1.off()
+                        fase_2.off()
+                        fase_3.off()
+                        fase_4.on()
+                    await asyncio.sleep(0.01)  # Adjust the sleep duration as needed
 
-async def read_nfc(queue):
+async def read_nfc():
     reader = SimpleMFRC522()
     while True:
-        data = await queue.get()
         if data is not None:
             dev_id, name, support_vol, volume, repeat, shuffle, is_playing, currently_playing_album = data
-        id = str(reader.read_id_no_block())
-        wejscie = 'asd'
-        if id != 'None' and wejscie == '1':
-            albumy[id] = currently_playing_album
-        elif (id in albumy) and wejscie == '0':
-            print(currently_playing_album, albumy[id])
-        elif (id in albumy) and wejscie == '2':
-            spoti.play_album(albumy[id])
+            id = str(reader.read_id_no_block())
+            with open('save.json') as f:
+                albumy = json.load(f)
+            wejscie = 'asd'
+            if id != 'None' and wejscie == '1':
+                albumy[id] = currently_playing_album
+                with open('save.json','w') as f:
+                    json.dump(albumy,f)
+            elif (id in albumy) and wejscie == '0':
+                print(currently_playing_album, albumy[id])
+            elif (id in albumy) and wejscie == '2':
+                spoti.play_album(albumy[id])
         await asyncio.sleep(1)  # Adjust the sleep duration as needed
+
 async def main():
-    queue = Queue()
-    tasks = [
-        asyncio.create_task(steps(queue)),
-        asyncio.create_task(read_nfc(queue)),
-        asyncio.create_task(handle_buttons(queue))
-    ]
-    await asyncio.gather(*tasks)
+    while True:
+        await asyncio.gather(
+            handle_buttons(),
+            steps(),
+            read_nfc()
+        )
 
 if __name__ == "__main__":
     albumy = {}
