@@ -83,7 +83,7 @@ async def main():
     while True:
         await asyncio.gather(
             handle_buttons(),
-            steps(),
+            #steps(),
             read_nfc()
         )
 
