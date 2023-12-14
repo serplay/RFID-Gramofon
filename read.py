@@ -32,10 +32,10 @@ while True:
         sleep(.2)
     if play.is_active:
         if spoti.is_playing:
-            spoti.control(val='play')
+            spoti.control(val='pause')
             sleep(.2)
         else:
-            spoti.control(val='pause')
+            spoti.control(val='play')
             sleep(.2)
     if skip.is_active:
         spoti.control(val='next')
