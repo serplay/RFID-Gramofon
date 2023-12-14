@@ -32,33 +32,33 @@ async def handle_buttons():
                     spoti.control('play', dev_id)
         await asyncio.sleep(0.1)  # Adjust the sleep duration as needed
 
-async def steps():
-    while True:
-        if data is not None:
-            dev_id, name, support_vol, volume, repeat, shuffle, is_playing, currently_playing_album = data
-            if is_playing:
-                for x in range(4):
-                    if x == 0:
-                        fase_1.on()
-                        fase_2.off()
-                        fase_3.on()
-                        fase_4.off()
-                    if x == 1:
-                        fase_1.off()
-                        fase_2.on()
-                        fase_3.on()
-                        fase_4.off()
-                    if x == 2:
-                        fase_1.off()
-                        fase_2.off()
-                        fase_3.on()
-                        fase_4.off()
-                    if x == 3:
-                        fase_1.off()
-                        fase_2.off()
-                        fase_3.off()
-                        fase_4.on()
-                    await asyncio.sleep(0.01)  # Adjust the sleep duration as needed
+#async def steps():
+#    while True:
+#        if data is not None:
+#            dev_id, name, support_vol, volume, repeat, shuffle, is_playing, currently_playing_album = data
+#            if is_playing:
+#                for x in range(4):
+#                    if x == 0:
+#                        fase_1.on()
+#                        fase_2.off()
+#                        fase_3.on()
+#                        fase_4.off()
+#                    if x == 1:
+#                        fase_1.off()
+#                        fase_2.on()
+#                        fase_3.on()
+#                        fase_4.off()
+#                    if x == 2:
+#                        fase_1.off()
+#                        fase_2.off()
+#                        fase_3.on()
+#                        fase_4.off()
+#                    if x == 3:
+#                        fase_1.off()
+#                        fase_2.off()
+#                        fase_3.off()
+#                        fase_4.on()
+#                    await asyncio.sleep(0.01)  # Adjust the sleep duration as needed
 
 async def read_nfc():
     reader = SimpleMFRC522()
