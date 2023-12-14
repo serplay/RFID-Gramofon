@@ -10,7 +10,7 @@ play = gpiozero.Button(15)
 skip = gpiozero.Button(18)
 reader = SimpleMFRC522()
 is_reading = True
-
+spoti = Spotify()
 id = 'None'
 
 with open('save.json') as f:
@@ -22,23 +22,23 @@ while True:
     wejscie = 'asd'
 
     if id != 'None' and wejscie == '1':
-        albumy[id] = Spotify.Device.currently_playing_album
+        albumy[id] = spoti.currently_playing_album
     elif (id in albumy) and wejscie == '0':
-        print(Spotify.currently_playing_album, albumy[id])
+        print(spoti.currently_playing_album, albumy[id])
     elif (id in albumy) and wejscie == '2':
-        Spotify.play_album(albumy[id])
+        spoti.play_album(albumy[id])
     if back.is_active:
-        Spotify.control(val='previous')
+        spoti.control(val='previous')
         sleep(.2)
     if play.is_active:
-        if Spotify.is_playing:
-            Spotify.control(val='play')
+        if spoti.is_playing:
+            spoti.control(val='play')
             sleep(.2)
         else:
-            Spotify.control(val='pause')
+            spoti.control(val='pause')
             sleep(.2)
     if skip.is_active:
-        Spotify.control(val='next')
+        spoti.control(val='next')
         sleep(.2)
         
     if albumy != albumy_start:
