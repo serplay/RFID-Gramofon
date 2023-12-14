@@ -28,17 +28,17 @@ while True:
     elif (id in albumy) and wejscie == '2':
         Spotify.play_album(albumy[id])
     if back.is_active:
-        Spotify.control('previous')
+        Spotify.control(val='previous')
         sleep(.2)
     if play.is_active:
         if Spotify.is_playing:
-            Spotify.control('play')
+            Spotify.control(val='play')
             sleep(.2)
         else:
-            Spotify.control('pause')
+            Spotify.control(val='pause')
             sleep(.2)
     if skip.is_active:
-        Spotify.control('next')
+        Spotify.control(val='next')
         sleep(.2)
         
     if albumy != albumy_start:
