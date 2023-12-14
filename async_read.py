@@ -32,28 +32,31 @@ async def handle_buttons():
         
 async def steps():
     while True:
-        for x in range(4):
-            if x == 0:
-                fase_1.on()
-                fase_2.off()
-                fase_3.off()
-                fase_4.off()
-            if x == 1:
-                fase_1.off()
-                fase_2.on()
-                fase_3.off()
-                fase_4.off()
-            if x == 2:
-                fase_1.off()
-                fase_2.off()
-                fase_3.on()
-                fase_4.off()
-            if x == 3:
-                fase_1.off()
-                fase_2.off()
-                fase_3.off()
-                fase_4.on()
-            await asyncio.sleep(0.5)  # Adjust the sleep duration as needed
+        if is_playing:
+            for x in range(4):
+                if x == 0:
+                    fase_1.on()
+                    fase_2.off()
+                    fase_3.off()
+                    fase_4.off()
+                if x == 1:
+                    fase_1.off()
+                    fase_2.on()
+                    fase_3.off()
+                    fase_4.off()
+                if x == 2:
+                    fase_1.off()
+                    fase_2.off()
+                    fase_3.on()
+                    fase_4.off()
+                if x == 3:
+                    fase_1.off()
+                    fase_2.off()
+                    fase_3.off()
+                    fase_4.on()
+                await asyncio.sleep(0.0001)
+        else:
+            await asyncio.sleep(1)
 
 async def read_nfc():
     reader = SimpleMFRC522()
