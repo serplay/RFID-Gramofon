@@ -1,6 +1,6 @@
 import spotipy
 from spotipy.oauth2 import SpotifyOAuth
-import os
+import requests
 
 class Spotify:
     CLIENT_ID = '4ce62ad0273d45bcb66e14bb1af47343'
@@ -12,16 +12,16 @@ class Spotify:
     sp = spotipy.Spotify(auth_manager=token)
     global data
     data = sp.current_playback()
-    class Device:
-        if data != None:
-            id = data['device']['id']
-            name = data['device']['name']
-            support_vol=data['device']['supports_volume']
-            volume=data['device']['volume_percent']
-            repeat=data['repeat_state']
-            shuffle=data['shuffle_state']
-            is_playing=data['is_playing']
-            currently_playing_album = data['item']['album']['uri']
+
+    if data != None:
+        id = data['device']['id']
+        name = data['device']['name']
+        support_vol=data['device']['supports_volume']
+        volume=data['device']['volume_percent']
+        repeat=data['repeat_state']
+        shuffle=data['shuffle_state']
+        is_playing=data['is_playing']
+        currently_playing_album = data['item']['album']
 
     def set_volume(self, val):
         self.sp.volume(val)
@@ -29,18 +29,22 @@ class Spotify:
     def control(self, val):
             if val == 'play':
                 print(f'playing audio')
-                #sp.start_playback(get_deviceId())
+                self.sp.start_playback(self.id)
             elif val == 'pause':
                 print(f'audio paused')
-                #sp.pause_playback(get_deviceId())
+                self.sp.pause_playback(self.id)
             elif val =='next':
                 print(f'playing next track')
-                #sp.next_track(get_deviceId())
+                self.sp.next_track(self.id)
             elif val == 'previous':
                 print(f'playing previous track')
-                #sp.previous_track(get_deviceId())
+                self.sp.previous_track(self.id)
 
     def play_album(self, uri):
-        album = self.Device.currently_playing_album
-        print(f'playing {album["name"]} on device {self.Device.name}')
-        #sp.start_playback(device_id=DEVICE_ID,context_uri=uri)
+        album = self.currently_playing_album
+        print(f'playing {album["name"]} on device {self.name}')
+        self.sp.start_playback(device_id=self.id,context_uri=uri)
+
+spoti = Spotify()
+spoti.set_volume(85)
+spoti.play_album('spotify:album:4SZko61aMnmgvNhfhgTuD3')
