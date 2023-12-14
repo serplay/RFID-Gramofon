@@ -4,7 +4,7 @@ from spotify_control import Spotify
 import gpiozero
 import json
 import asyncio
-from queue import Queue
+from threading import Event
 
 GPIO.setwarnings(False)
 
@@ -16,13 +16,16 @@ fase_2 = gpiozero.OutputDevice(13)
 fase_3 = gpiozero.OutputDevice(19)
 fase_4 = gpiozero.OutputDevice(26)
 
+data_event = Event()  # Event to signal when new data is available
+shared_data = None  # Shared variable to store the latest data
 
-
-async def handle_buttons(queue):
+async def handle_buttons():
+    global shared_data
     while True:
         data = spoti.get_data()
-        queue.put(data)
         if data is not None:
+            shared_data = data  # Update the shared_data variable
+            data_event.set()  # Set the event to signal new data
             dev_id, name, support_vol, volume, repeat, shuffle, is_playing, currently_playing_album = data
             if back.is_active:
                 spoti.control('previous', dev_id)
@@ -34,12 +37,13 @@ async def handle_buttons(queue):
                 else:
                     spoti.control('play', dev_id)
         await asyncio.sleep(0.1)  # Adjust the sleep duration as needed
-        
-async def steps(queue):
+
+async def steps():
+    global shared_data
     while True:
-        data = await queue.get()
-        if data is not None:
-            dev_id, name, support_vol, volume, repeat, shuffle, is_playing, currently_playing_album = data
+        data_event.wait()  # Wait for the event to be set (new data available)
+        data_event.clear()  # Clear the event
+        dev_id, name, support_vol, volume, repeat, shuffle, is_playing, currently_playing_album = shared_data
         if is_playing:
             for x in range(4):
                 if x == 0:
@@ -64,12 +68,13 @@ async def steps(queue):
                     fase_4.on()
                 await asyncio.sleep(0.01)  # Adjust the sleep duration as needed
 
-async def read_nfc(queue):
+async def read_nfc():
+    global shared_data
     reader = SimpleMFRC522()
     while True:
-        data = await queue.get()
-        if data is not None:
-            dev_id, name, support_vol, volume, repeat, shuffle, is_playing, currently_playing_album = data
+        data_event.wait()  # Wait for the event to be set (new data available)
+        data_event.clear()  # Clear the event
+        dev_id, name, support_vol, volume, repeat, shuffle, is_playing, currently_playing_album = shared_data
         id = str(reader.read_id_no_block())
         wejscie = 'asd'
         if id != 'None' and wejscie == '1':
@@ -79,12 +84,12 @@ async def read_nfc(queue):
         elif (id in albumy) and wejscie == '2':
             spoti.play_album(albumy[id])
         await asyncio.sleep(1)  # Adjust the sleep duration as needed
+
 async def main():
-    queue = Queue()
     tasks = [
-        asyncio.create_task(steps(queue)),
-        asyncio.create_task(read_nfc(queue)),
-        asyncio.create_task(handle_buttons(queue))
+        asyncio.create_task(steps()),
+        asyncio.create_task(read_nfc()),
+        asyncio.create_task(handle_buttons())
     ]
     await asyncio.gather(*tasks)
 
