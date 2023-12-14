@@ -21,9 +21,10 @@ fase_4 = gpiozero.OutputDevice(26)
 async def handle_buttons(queue):
     while True:
         data = spoti.get_data()
+        queue.put(data)
+        queue.ge
         if data is not None:
             dev_id, name, support_vol, volume, repeat, shuffle, is_playing, currently_playing_album = data
-            queue.put((dev_id, name, support_vol, volume, repeat, shuffle, is_playing, currently_playing_album))  # Put the data into the queue
             if back.is_active:
                 spoti.control('previous', dev_id)
             if skip.is_active:
@@ -37,17 +38,20 @@ async def handle_buttons(queue):
         
 async def steps(queue):
     while True:
+        data = queue.get_data()
+        if data is not None:
+            dev_id, name, support_vol, volume, repeat, shuffle, is_playing, currently_playing_album = data
         if is_playing:
             for x in range(4):
                 if x == 0:
                     fase_1.on()
                     fase_2.off()
-                    fase_3.off()
+                    fase_3.on()
                     fase_4.off()
                 if x == 1:
                     fase_1.off()
                     fase_2.on()
-                    fase_3.off()
+                    fase_3.on()
                     fase_4.off()
                 if x == 2:
                     fase_1.off()
@@ -64,6 +68,9 @@ async def steps(queue):
 async def read_nfc(queue):
     reader = SimpleMFRC522()
     while True:
+        data = queue.get_data()
+        if data is not None:
+            dev_id, name, support_vol, volume, repeat, shuffle, is_playing, currently_playing_album = data
         id = str(reader.read_id_no_block())
         wejscie = 'asd'
         if id != 'None' and wejscie == '1':
