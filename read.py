@@ -18,7 +18,7 @@ with open('save.json') as f:
 albumy_start = dict.copy(albumy)
 
 while True:
-    dev_id,name,support_vol,volume,repeat,shuffle,is_playing,currently_playing_album=spoti.update()
+    dev_id,name,support_vol,volume,repeat,shuffle,is_playing,currently_playing_album=spoti.get_data()
     id = str(reader.read_id_no_block())
     wejscie = 'asd'
 
