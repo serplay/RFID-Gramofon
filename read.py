@@ -20,7 +20,6 @@ albumy_start = dict.copy(albumy)
 while True:
     data=spoti.get_data()
     if data != None:
-        print(data)
         dev_id,name,support_vol,volume,repeat,shuffle,is_playing,currently_playing_album = data
     id = str(reader.read_id_no_block())
     wejscie = 'asd'
@@ -34,17 +33,17 @@ while True:
         
     if back.is_active:
         spoti.control('previous',dev_id)
-        sleep(.2)
+        sleep(.1)
     if play.is_active:
         if is_playing:
             spoti.control('pause',dev_id)
-            sleep(.2)
+            sleep(.1)
         else:
             spoti.control('play',dev_id)
-            sleep(.2)
+            sleep(.1)
     if skip.is_active:
         spoti.control('next',dev_id)
-        sleep(.2)
+        sleep(.1)
         
     if albumy != albumy_start:
         with open('save.json','w') as f:
