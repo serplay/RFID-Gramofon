@@ -17,6 +17,7 @@ fase_3 = gpiozero.OutputDevice(19)
 fase_4 = gpiozero.OutputDevice(26)
 
 async def handle_buttons():
+    print('script working')
     while True:
         global data
         data = spoti.get_data()
@@ -79,7 +80,7 @@ async def read_nfc():
                     json.dump(albumy,f)
             elif id in albumy:
                 if currently_playing_album != albumy[id]:
-                    spoti.play_album(albumy[id])
+                    spoti.play_album(albumy[id],dev_id)
                 else:
                     pass
         await asyncio.sleep(1)  # Adjust the sleep duration as needed
