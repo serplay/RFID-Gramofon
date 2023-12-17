@@ -63,7 +63,7 @@ async def handle_buttons():
 #            else:
 #                await asyncio.sleep(1)
 #        else:
-#            await asyncio.sleep(0.01)
+#            await asyncio.sleep(1)
 
 async def read_nfc():
     reader = SimpleMFRC522()
