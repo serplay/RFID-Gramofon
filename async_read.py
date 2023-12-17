@@ -78,7 +78,10 @@ async def read_nfc():
                 with open('save.json','w') as f:
                     json.dump(albumy,f)
             elif id in albumy:
-                spoti.play_album(albumy[id])
+                if currently_playing_album != albumy[id]:
+                    spoti.play_album(albumy[id])
+                else:
+                    pass
         await asyncio.sleep(1)  # Adjust the sleep duration as needed
 
 async def main():
