@@ -76,6 +76,7 @@ async def read_nfc():
                 albumy = json.load(f)
             if id != 'None' and adder.is_active:
                 albumy[id] = currently_playing_album
+                print('przypisano')
                 with open('save.json','w') as f:
                     json.dump(albumy,f)
             elif id in albumy:
