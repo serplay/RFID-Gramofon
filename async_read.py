@@ -74,10 +74,7 @@ async def read_nfc():
             id = str(reader.read_id_no_block())
             with open('save.json') as f:
                 albumy = json.load(f)
-            if id == "None":
-                if is_playing:
-                    spoti.control('pause', dev_id)
-            elif id != 'None' and adder.is_active:
+            if id != 'None' and adder.is_active:
                 albumy[id] = currently_playing_album
                 with open('save.json','w') as f:
                     json.dump(albumy,f)
