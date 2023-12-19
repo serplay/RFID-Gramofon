@@ -97,6 +97,7 @@ if __name__ == "__main__":
     data = spoti.get_data()
     while data is None:
         data = spoti.get_data()
+        print(data)
         dev_id, name, support_vol, volume, repeat, shuffle_sp, is_playing, currently_playing_album = data
     if shuffle_sp:
         spoti.control("shuffle_off",dev_id)
