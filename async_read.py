@@ -19,7 +19,7 @@ indicator = gpiozero.LED(12)
 async def handle_buttons():
     print('script working')
     while True:
-        try:
+        #try:
             data = spoti.get_data()
             if data is not None:
                 dev_id, name, support_vol, volume, repeat, shuffle, is_playing, currently_playing_album = data
@@ -42,10 +42,10 @@ async def handle_buttons():
                         spoti.control("loop_song")
                     else:
                         spoti.control("loop")
-        except Exception as e:
-            print(e)
-            pass
-        finally:
+        #except Exception as e:
+        #    print(e)
+        #    pass
+        #finally:
             await asyncio.sleep(0.01)  # Adjust the sleep duration as needed
 
 async def steps():
