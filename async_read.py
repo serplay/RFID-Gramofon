@@ -11,7 +11,7 @@ back = gpiozero.Button(14)
 play = gpiozero.Button(15)
 skip = gpiozero.Button(18)
 adder = gpiozero.Button(16)
-shuffle = gpiozero.Button(23)
+shuffle_but = gpiozero.Button(23)
 loop = gpiozero.Button(24)
 stepper = gpiozero.DigitalOutputDevice(21)
 indicator = gpiozero.LED(12)
@@ -32,7 +32,7 @@ async def handle_buttons():
                         spoti.control('pause', dev_id)
                     else:
                         spoti.control('play', dev_id)
-                if shuffle.is_active:
+                if shuffle_but.is_active:
                     if shuffle:
                         spoti.control("shuffle_off",dev_id)
                     else:
