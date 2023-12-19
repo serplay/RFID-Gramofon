@@ -19,20 +19,33 @@ indicator = gpiozero.LED(12)
 async def handle_buttons():
     print('script working')
     while True:
-        global data
-        data = spoti.get_data()
-        if data is not None:
-            dev_id, name, support_vol, volume, repeat, shuffle, is_playing, currently_playing_album = data
-            if back.is_active:
-                spoti.control('previous', dev_id)
-            if skip.is_active:
-                spoti.control('next', dev_id)
-            if play.is_active:
-                if is_playing:
-                    spoti.control('pause', dev_id)
-                else:
-                    spoti.control('play', dev_id)
-        await asyncio.sleep(0.1)  # Adjust the sleep duration as needed
+        try:
+            data = spoti.get_data()
+            if data is not None:
+                dev_id, name, support_vol, volume, repeat, shuffle, is_playing, currently_playing_album = data
+                if back.is_active:
+                    spoti.control('previous', dev_id)
+                if skip.is_active:
+                    spoti.control('next', dev_id)
+                if play.is_active:
+                    if is_playing:
+                        spoti.control('pause', dev_id)
+                    else:
+                        spoti.control('play', dev_id)
+                if shuffle.is_active:
+                    if shuffle:
+                        spoti.control("shuffle_off",dev_id)
+                    else:
+                        spoti.control("shuffle_on",dev_id)
+                if loop.is_active:
+                    if repeat == "context":
+                        spoti.control("loop_song")
+                    else:
+                        spoti.control("loop")
+        except Exception as e:
+            print(e)
+            pass
+        await asyncio.sleep(0.01)  # Adjust the sleep duration as needed
 
 async def steps():
     while True:
@@ -80,6 +93,12 @@ if __name__ == "__main__":
     albumy_start = dict.copy(albumy)
     spoti = Spotify()
     indicator.blink(0.5,0.5,5)
+    data = spoti.get_data()
+    dev_id, name, support_vol, volume, repeat, shuffle_sp, is_playing, currently_playing_album = data
+    if shuffle_sp:
+        spoti.control("shuffle_off",dev_id)
+    if repeat != "context":
+        spoti.control("loop",dev_id)
     loop = asyncio.get_event_loop()
     try:
         loop.run_until_complete(main())

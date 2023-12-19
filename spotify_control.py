@@ -42,7 +42,14 @@ class Spotify:
             elif val == 'previous':
                 print(f'playing previous track')
                 self.sp.previous_track(dev_id)
+            elif val == "shuffle_on":
+                self.sp.shuffle(True,dev_id)
+            elif val == "shuffle_off":
+                self.sp.shuffle(False)
+            elif val == "loop_song":
+                self.sp.repeat("track")
+            elif val == "loop":
+                self.sp.repeat("context")
 
     def play_album(self, uri,dev_id):
         self.sp.start_playback(device_id=dev_id,context_uri=uri)
-
