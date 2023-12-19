@@ -59,6 +59,7 @@ async def read_nfc():
                 print('przypisano')
                 with open('save.json','w') as f:
                     json.dump(albumy,f)
+                indicator.off()
             elif id in albumy:
                 if currently_playing_album != albumy[id]:
                     spoti.play_album(albumy[id],dev_id)
