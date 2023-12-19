@@ -13,7 +13,7 @@ skip = gpiozero.Button(18)
 adder = gpiozero.Button(16)
 shuffle = gpiozero.Button(23)
 loop = gpiozero.Button(24)
-stepper = gpiozero.DigitalOutputDevice(12)
+stepper = gpiozero.DigitalOutputDevice(21)
 indicator = gpiozero.LED(12)
 
 async def handle_buttons():
