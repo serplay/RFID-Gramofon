@@ -45,7 +45,8 @@ async def handle_buttons():
         except Exception as e:
             print(e)
             pass
-        await asyncio.sleep(0.01)  # Adjust the sleep duration as needed
+        finally:
+            await asyncio.sleep(0.01)  # Adjust the sleep duration as needed
 
 async def steps():
     while True:
