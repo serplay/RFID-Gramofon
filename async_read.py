@@ -94,6 +94,7 @@ if __name__ == "__main__":
     albumy_start = dict.copy(albumy)
     spoti = Spotify()
     indicator.blink(0.5,0.5,5)
+    data = spoti.get_data()
     while data is None:
         data = spoti.get_data()
         dev_id, name, support_vol, volume, repeat, shuffle_sp, is_playing, currently_playing_album = data
