@@ -39,9 +39,9 @@ async def handle_buttons():
                         spoti.control("shuffle_on",dev_id)
                 if loop_but.is_active:
                     if repeat == "context":
-                        spoti.control("loop_song")
+                        spoti.control("loop_song",dev_id)
                     else:
-                        spoti.control("loop")
+                        spoti.control("loop",dev_id)
         #except Exception as e:
         #    print(e)
         #    pass
