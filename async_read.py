@@ -67,6 +67,7 @@ async def handle_buttons():
 async def read_nfc():
     reader = SimpleMFRC522()
     while True:
+        data = spoti.get_data()
         if data is not None:
             dev_id, name, support_vol, volume, repeat, shuffle, is_playing, currently_playing_album = data
             id = str(reader.read_id_no_block())
