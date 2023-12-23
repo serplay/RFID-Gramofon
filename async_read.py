@@ -13,8 +13,10 @@ skip = gpiozero.Button(18)
 adder = gpiozero.Button(16)
 shuffle_but = gpiozero.Button(23)
 loop_but = gpiozero.Button(24)
-stepper = gpiozero.DigitalOutputDevice(21)
+#stepper = gpiozero.DigitalOutputDevice(21)
 indicator = gpiozero.LED(12)
+loop_led = gpiozero.LED(26)
+shuffle_led = gpiozero.LED(19)
 
 async def handle_buttons():
     print('script working')
@@ -34,13 +36,17 @@ async def handle_buttons():
                         spoti.control('play', dev_id)
                 if shuffle_but.is_active:
                     if shuffle:
+                        shuffle_led.off()
                         spoti.control("shuffle_off",dev_id)
                     else:
+                        shuffle_led.on()
                         spoti.control("shuffle_on",dev_id)
                 if loop_but.is_active:
                     if repeat == "context":
+                        loop_led.on()
                         spoti.control("loop_song",dev_id)
                     else:
+                        loop_led.off()
                         spoti.control("loop",dev_id)
         #except Exception as e:
         #    print(e)
@@ -48,15 +54,15 @@ async def handle_buttons():
         #finally:
             await asyncio.sleep(0.01)  # Adjust the sleep duration as needed
 
-async def steps():
-    while True:
-        if data is not None:
-            dev_id, name, support_vol, volume, repeat, shuffle, is_playing, currently_playing_album = data
-            if is_playing and not stepper.value:
-                stepper.on()
-            elif not is_playing and stepper.value:
-                stepper.off()
-        await asyncio.sleep(1)
+#async def steps():
+#    while True:
+#        if data is not None:
+#            dev_id, name, support_vol, volume, repeat, shuffle, is_playing, currently_playing_album = data
+#            if is_playing and not stepper.value:
+#                stepper.on()
+#            elif not is_playing and stepper.value:
+#                stepper.off()
+#        await asyncio.sleep(1)
             
 async def read_nfc():
     reader = SimpleMFRC522()
@@ -85,7 +91,7 @@ async def main():
     while True:
         await asyncio.gather(
             handle_buttons(),
-            steps(),
+            #steps(),
             read_nfc()
         )
 
