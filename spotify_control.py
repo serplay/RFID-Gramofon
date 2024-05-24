@@ -3,8 +3,8 @@ from spotipy.oauth2 import SpotifyOAuth
 import requests
 
 class Spotify:
-    CLIENT_ID = '4ce62ad0273d45bcb66e14bb1af47343'
-    CLIENT_SECRET = '022524ff98bc40ff907eba3798736d0e'
+    CLIENT_ID = 'PUT YOUR ID HERE'
+    CLIENT_SECRET = 'PUT YOUR SECRET HERE'
     SCOPES = 'user-read-playback-state','user-modify-playback-state','user-read-currently-playing'
 
     token = SpotifyOAuth(client_id=CLIENT_ID, client_secret=CLIENT_SECRET,
